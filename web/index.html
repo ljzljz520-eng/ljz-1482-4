@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>职业培训分镜工作台</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🎬 职业培训分镜工作台</div>
+  <nav class="tabs">
+    <button data-tab="course" class="tab active">课程编排</button>
+    <button data-tab="objectives" class="tab">目标与覆盖</button>
+    <button data-tab="assets" class="tab">素材与演示</button>
+    <button data-tab="packages" class="tab">课件包/开班</button>
+    <button data-tab="history" class="tab">历史与撤销</button>
+  </nav>
+  <div class="who">
+    <select id="userSelect" title="切换当前用户"></select>
+    <span id="roleBadge" class="badge"></span>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h3>工作区</h3>
+    <select id="wsSelect"></select>
+    <h3>课程</h3>
+    <ul id="courseList" class="course-list"></ul>
+    <div class="quota-box">
+      <strong>导出额度</strong>
+      <div id="quota" class="quota"></div>
+    </div>
+    <div class="validation" id="validationBox"></div>
+  </aside>
+
+  <main class="content">
+    <!-- 课程编排 -->
+    <section id="tab-course" class="tabpane active">
+      <div class="pane-head">
+        <h2>课程目标 / 章节 / 讲师台词 / 练习提示</h2>
+        <div class="actions">
+          <button id="btnReorder" class="ghost">↕ 进入重排</button>
+          <button id="btnAddChapter" class="primary">＋ 新增章节</button>
+        </div>
+      </div>
+      <div id="chapters" class="chapters"></div>
+    </section>
+
+    <!-- 目标与覆盖 -->
+    <section id="tab-objectives" class="tabpane">
+      <div class="pane-head">
+        <h2>训练目标与考核覆盖</h2>
+        <button id="btnAddObjective" class="primary">＋ 新增目标</button>
+      </div>
+      <p class="hint">每个考核点必须引用支撑它的教学片段；目标改版后旧覆盖进入“待重新确认”。</p>
+      <div id="objectives"></div>
+    </section>
+
+    <!-- 素材 -->
+    <section id="tab-assets" class="tabpane">
+      <div class="pane-head">
+        <h2>素材库与演示绑定</h2>
+        <button id="btnAddAsset" class="primary">＋ 新增素材</button>
+      </div>
+      <p class="hint">画面 / 字幕 / 说明必须对应同一素材版本；替换视频后越界时间码自动进入“待修复”。</p>
+      <div id="assets"></div>
+      <h3>本课程演示绑定</h3>
+      <div id="bindings"></div>
+    </section>
+
+    <!-- 课件包 -->
+    <section id="tab-packages" class="tabpane">
+      <div class="pane-head"><h2>课件包导出与开班冻结</h2></div>
+      <div class="mode-cards">
+        <div class="mode-card">
+          <h4>📌 固定版本复用 (pinned)</h4>
+          <p>导出时固化快照，模板升级不影响产物；适合已开班/发布/留档。</p>
+        </div>
+        <div class="mode-card">
+          <h4>🔄 模块跟随更新 (follow)</h4>
+          <p>课程变化后包标记为过期，需重建才生效；适合试听与内部评审。</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="btnExportPinned" class="primary">导出固定课件包</button>
+        <button id="btnExportFollow" class="ghost">导出跟随课件包</button>
+        <button id="btnReconcile" class="ghost">🔧 对账补发回执</button>
+      </div>
+      <div id="packages"></div>
+      <h3>已开班次（内容冻结）</h3>
+      <div id="classes"></div>
+    </section>
+
+    <!-- 历史 -->
+    <section id="tab-history" class="tabpane">
+      <div class="pane-head"><h2>修订历史（受限撤销）</h2></div>
+      <p class="hint">撤销只能回到自己的最新修订；同事之后的后续修订会让撤销以冲突失败，绝不回退他人工作。</p>
+      <table class="history-table">
+        <thead><tr><th>#</th><th>实体</th><th>动作</th><th>版本</th><th>操作人</th><th>时间</th><th></th></tr></thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </section>
+  </main>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions">
+      <button id="modalCancel" class="ghost">取消</button>
+      <button id="modalOk" class="primary">确定</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>
